@@ -1,0 +1,880 @@
+# CSS プロパティ チートシート
+
+## 目次
+1. [メディアクエリの基本](#メディアクエリの基本)
+2. [標準的なブレイクポイント](#標準的なブレイクポイント)
+3. [テキスト折り返しと制御](#テキスト折り返しと制御)
+4. [ボックスモデルとサイジング](#ボックスモデルとサイジング)
+5. [レスポンシブボタンデザイン](#レスポンシブボタンデザイン)
+6. [レスポンシブナビゲーション](#レスポンシブナビゲーション)
+7. [グリッドレイアウト](#グリッドレイアウト)
+8. [フレックスボックス](#フレックスボックス)
+9. [実用的なコピペコードパターン](#実用的なコピペコードパターン)
+
+---
+
+## メディアクエリの基本
+
+メディアクエリを使うと、異なるデバイスサイズや特性に基づいてスタイルを適用できます。
+
+### 基本構文
+
+```css
+@media メディアタイプ and (条件) {
+    /* ここにCSSを記述 */
+}
+```
+
+### メディアタイプ
+
+```css
+/* スクリーン向け（最も一般的） */
+@media screen { }
+
+/* 印刷向け */
+@media print { }
+
+/* すべてのメディアタイプ向け */
+@media all { }
+```
+
+### 画面サイズによる条件指定
+
+```css
+/* 最大幅指定（指定サイズ以下で適用） */
+@media screen and (max-width: 768px) { }
+
+/* 最小幅指定（指定サイズ以上で適用） */
+@media screen and (min-width: 768px) { }
+
+/* 幅の範囲を指定 */
+@media screen and (min-width: 768px) and (max-width: 1024px) { }
+
+/* 高さに基づく指定 */
+@media screen and (max-height: 600px) { }
+```
+
+### デバイスの向き指定
+
+```css
+/* 横向き */
+@media screen and (orientation: landscape) { }
+
+/* 縦向き */
+@media screen and (orientation: portrait) { }
+```
+
+### 解像度の指定
+
+```css
+/* 高解像度ディスプレイ（Retinaなど）向け */
+@media screen and (-webkit-min-device-pixel-ratio: 2),
+       screen and (min-resolution: 192dpi) { }
+```
+
+---
+
+## 標準的なブレイクポイント
+
+### モバイルファーストアプローチ
+
+```css
+/* モバイル向けベーススタイル（デフォルト） */
+body {
+    font-size: 16px;
+}
+
+/* タブレット向け */
+@media screen and (min-width: 768px) {
+    body {
+        font-size: 17px;
+    }
+}
+
+/* デスクトップ向け */
+@media screen and (min-width: 1024px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+/* 大型ディスプレイ向け */
+@media screen and (min-width: 1440px) {
+    body {
+        font-size: 19px;
+    }
+}
+```
+
+### デスクトップファーストアプローチ
+
+```css
+/* デスクトップ向けベーススタイル（デフォルト） */
+body {
+    font-size: 18px;
+}
+
+/* タブレット向け */
+@media screen and (max-width: 1024px) {
+    body {
+        font-size: 17px;
+    }
+}
+
+/* モバイル向け */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+}
+```
+
+### 標準的なブレイクポイント値
+
+```css
+/* モバイル（小）: 0px - 479px */
+@media screen and (max-width: 479px) { }
+
+/* モバイル（大）: 480px - 767px */
+@media screen and (min-width: 480px) and (max-width: 767px) { }
+
+/* タブレット: 768px - 1023px */
+@media screen and (min-width: 768px) and (max-width: 1023px) { }
+
+/* デスクトップ（小）: 1024px - 1279px */
+@media screen and (min-width: 1024px) and (max-width: 1279px) { }
+
+/* デスクトップ（中）: 1280px - 1439px */
+@media screen and (min-width: 1280px) and (max-width: 1439px) { }
+
+/* デスクトップ（大）: 1440px - 1919px */
+@media screen and (min-width: 1440px) and (max-width: 1919px) { }
+
+/* 超大型ディスプレイ: 1920px以上 */
+@media screen and (min-width: 1920px) { }
+```
+
+---
+
+## テキスト折り返しと制御
+
+長い単語や英文を適切に折り返すためのプロパティです。
+
+### よくある問題
+
+テキストコンテンツに長い単語（特に英単語）が含まれると、コンテナからはみ出してしまうことがあります。
+
+### overflow-wrap (word-wrap)
+
+```css
+.container {
+    /* 長い単語を折り返す */
+    overflow-wrap: break-word;  /* 現代的な書き方 */
+    word-wrap: break-word;      /* 古い書き方（互換性のため） */
+}
+```
+
+### word-break
+
+```css
+.container {
+    /* デフォルト */
+    word-break: normal;
+
+    /* どこでも折り返し可能（単語の途中でも） */
+    word-break: break-all;
+
+    /* CJK言語（中国語・日本語・韓国語）で単語途中での改行を防ぐ */
+    word-break: keep-all;
+}
+```
+
+### hyphens
+
+```css
+.container {
+    /* ハイフネーションなし */
+    hyphens: none;
+
+    /* 自動ハイフネーション（言語設定が必要） */
+    hyphens: auto;
+
+    /* 手動ハイフネーション（&shy;や‐でのみ分割） */
+    hyphens: manual;
+}
+```
+
+### 総合的な解決方法
+
+```css
+.container {
+    overflow-wrap: break-word;
+    word-wrap: break-word;      /* 互換性のため */
+    word-break: normal;
+    hyphens: auto;
+}
+```
+
+### 特定の状況に適したプロパティ
+
+```css
+/* 長いURLや単語を含むコンテンツ */
+.content-with-long-words {
+    overflow-wrap: break-word;
+}
+
+/* テーブルセルの内容が長い場合 */
+td {
+    word-break: break-all;
+}
+
+/* 英文の文章で自然な折り返しを実現 */
+.english-text {
+    hyphens: auto;
+}
+```
+
+---
+
+## ボックスモデルとサイジング
+
+### box-sizing
+
+```css
+/* ブラウザデフォルト */
+.element {
+    box-sizing: content-box;
+    /* width/heightはコンテンツ領域のみを指定
+       paddingとborderは追加で計算される */
+}
+
+/* 推奨設定 */
+.element {
+    box-sizing: border-box;
+    /* width/heightにpadding、borderを含む
+       より直感的なサイズ指定が可能 */
+}
+
+/* すべての要素に適用（推奨） */
+* {
+    box-sizing: border-box;
+}
+```
+
+### width/height 指定方法
+
+```css
+.element {
+    /* 固定サイズ */
+    width: 300px;
+    height: 200px;
+    
+    /* 親要素に対する相対サイズ */
+    width: 50%;
+    height: 75%;
+    
+    /* ビューポートに対する相対サイズ */
+    width: 50vw;  /* ビューポート幅の50% */
+    height: 50vh; /* ビューポート高さの50% */
+    
+    /* 最小・最大サイズの指定 */
+    min-width: 200px;
+    max-width: 800px;
+    min-height: 100px;
+    max-height: 400px;
+}
+
+/* レスポンシブな幅設定 */
+.responsive-element {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; /* 中央揃え */
+}
+```
+
+---
+
+## レスポンシブボタンデザイン
+
+### 基本ボタンスタイル
+
+```css
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+```
+
+### サイズバリエーション
+
+```css
+/* 小さいボタン */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+/* デフォルトサイズ */
+.btn-md {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+/* 大きいボタン */
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 18px;
+}
+```
+
+### レスポンシブボタン対応
+
+```css
+.btn {
+    /* モバイル向け（デフォルト） */
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* タブレット以上のサイズでインラインボタン化 */
+@media screen and (min-width: 768px) {
+    .btn {
+        display: inline-block;
+        width: auto;
+        margin-right: 10px;
+        margin-bottom: 0;
+    }
+}
+
+/* デスクトップでのサイズ調整 */
+@media screen and (min-width: 1024px) {
+    .btn {
+        padding: 10px 24px;
+        font-size: 18px;
+    }
+    
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    .btn-lg {
+        padding: 12px 30px;
+        font-size: 20px;
+    }
+}
+
+/* タッチデバイス向け調整 */
+@media (hover: none) {
+    .btn {
+        padding-top: 14px;    /* タップしやすいよう大きめに */
+        padding-bottom: 14px;
+    }
+}
+```
+
+### ボタングループ
+
+```css
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .btn-group {
+        flex-direction: row;
+    }
+    
+    /* 幅均等配置 */
+    .btn-group.equal-width .btn {
+        flex: 1;
+    }
+}
+```
+
+---
+
+## レスポンシブナビゲーション
+
+### ハンバーガーメニューへの切り替え
+
+```css
+/* デスクトップ用ナビゲーション */
+.nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+/* モバイル用ハンバーガーアイコン（初期状態は非表示） */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+/* モバイル向けスタイル */
+@media screen and (max-width: 768px) {
+    .nav {
+        display: none;  /* 初期状態では非表示 */
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .nav.active {
+        display: flex;  /* メニュー展開時に表示 */
+    }
+    
+    .nav-item {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .menu-toggle {
+        display: block;  /* ハンバーガーアイコン表示 */
+    }
+}
+```
+
+### ドロップダウンメニュー
+
+```css
+/* 親メニュー項目 */
+.has-dropdown {
+    position: relative;
+}
+
+/* ドロップダウンメニュー */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    min-width: 200px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+}
+
+/* ホバー時にドロップダウン表示（デスクトップ用） */
+.has-dropdown:hover .dropdown {
+    display: block;
+}
+
+/* モバイル用スタイル */
+@media screen and (max-width: 768px) {
+    .dropdown {
+        position: static;
+        box-shadow: none;
+        padding-left: 20px;
+    }
+    
+    /* ホバーでの表示を無効化し、クリックイベントに変更 */
+    .has-dropdown:hover .dropdown {
+        display: none;
+    }
+    
+    .dropdown.active {
+        display: block;
+    }
+}
+```
+
+---
+
+## グリッドレイアウト
+
+### 基本的なグリッドレイアウト
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3列の等幅グリッド */
+    gap: 20px;  /* グリッドアイテム間の余白 */
+}
+```
+
+### レスポンシブグリッド
+
+```css
+.grid-container {
+    display: grid;
+    /* モバイル向け（デフォルト）: 1列 */
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+/* タブレット向け: 2列 */
+@media screen and (min-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* デスクトップ向け: 3列 */
+@media screen and (min-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 大型ディスプレイ向け: 4列 */
+@media screen and (min-width: 1440px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+```
+
+### 自動調整グリッド
+
+```css
+.auto-grid {
+    display: grid;
+    /* 最小幅250px、利用可能なスペースを自動的に埋める */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+```
+
+### 特定の領域レイアウト
+
+```css
+.page-layout {
+    display: grid;
+    /* モバイル向け（デフォルト）: 1列 */
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "header"
+        "main"
+        "sidebar"
+        "footer";
+    gap: 20px;
+}
+
+/* デスクトップ向け: 2列 */
+@media screen and (min-width: 1024px) {
+    .page-layout {
+        grid-template-columns: 3fr 1fr;
+        grid-template-areas:
+            "header header"
+            "main sidebar"
+            "footer footer";
+    }
+}
+
+/* 要素に領域を指定 */
+.header { grid-area: header; }
+.main { grid-area: main; }
+.sidebar { grid-area: sidebar; }
+.footer { grid-area: footer; }
+```
+
+---
+
+## フレックスボックス
+
+### 基本的なフレックスボックス
+
+```css
+.flex-container {
+    display: flex;
+    justify-content: space-between;  /* 主軸（横方向）の配置 */
+    align-items: center;             /* 交差軸（縦方向）の配置 */
+    flex-wrap: wrap;                 /* 折り返し設定 */
+    gap: 20px;                       /* アイテム間の余白 */
+}
+```
+
+### レスポンシブフレックスアイテム
+
+```css
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.flex-item {
+    /* モバイル向け（デフォルト）: 100%幅 */
+    flex: 1 1 100%;
+}
+
+/* タブレット向け: 2つ並び */
+@media screen and (min-width: 768px) {
+    .flex-item {
+        flex: 1 1 calc(50% - 10px);  /* 50%幅からgapの半分を引く */
+    }
+}
+
+/* デスクトップ向け: 3つ並び */
+@media screen and (min-width: 1024px) {
+    .flex-item {
+        flex: 1 1 calc(33.333% - 14px);  /* 33.333%幅からgapの2/3を引く */
+    }
+}
+```
+
+### フレックス方向の切り替え
+
+```css
+.flex-container {
+    display: flex;
+    /* モバイル向け（デフォルト）: 縦方向 */
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* デスクトップ向け: 横方向 */
+@media screen and (min-width: 1024px) {
+    .flex-container {
+        flex-direction: row;
+    }
+}
+```
+
+### フレックス成長/収縮の制御
+
+```css
+.flex-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* 成長しない固定サイズ要素 */
+.fixed-item {
+    flex: 0 0 200px;  /* 成長なし、収縮なし、幅200px */
+}
+
+/* 利用可能な空間を埋める要素 */
+.growing-item {
+    flex: 1 1 auto;  /* 成長あり、収縮あり、自動サイズ */
+}
+
+/* 収縮しない要素 */
+.non-shrinking-item {
+    flex: 1 0 300px;  /* 成長あり、収縮なし、基本幅300px */
+}
+```
+
+---
+
+## 実用的なコピペコードパターン
+
+### レスポンシブイメージ
+
+```css
+/* 基本的なレスポンシブイメージ */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 背景画像 */
+.responsive-bg {
+    background-image: url('image-small.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+@media screen and (min-width: 768px) {
+    .responsive-bg {
+        background-image: url('image-medium.jpg');
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .responsive-bg {
+        background-image: url('image-large.jpg');
+    }
+}
+```
+
+### レスポンシブフォントサイズ
+
+```css
+/* 基本的なレスポンシブフォント */
+html {
+    font-size: 16px;  /* ベースフォントサイズ */
+}
+
+@media screen and (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/* フォントのスケーリング */
+h1 { font-size: 2rem; }   /* ベースの2倍 */
+h2 { font-size: 1.5rem; } /* ベースの1.5倍 */
+p { font-size: 1rem; }    /* ベースサイズ */
+
+/* 流動的なタイポグラフィ */
+.fluid-heading {
+    font-size: calc(1.5rem + 3vw);  /* ベース + ビューポート幅に応じて変化 */
+}
+```
+
+### カードレイアウト
+
+```css
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 16px;
+}
+```
+
+### ダークモード対応
+
+```css
+/* ライトモード（デフォルト） */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --link-color: #0066cc;
+}
+
+/* ダークモード */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #f0f0f0;
+        --link-color: #4da3ff;
+    }
+}
+
+/* 変数の適用 */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+}
+```
+
+### モバイルファーストグリッドシステム
+
+```css
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col {
+    flex-basis: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media screen and (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+    
+    .col-sm-6 {
+        flex-basis: 50%;
+    }
+    
+    .col-sm-4 {
+        flex-basis: 33.333%;
+    }
+    
+    .col-sm-3 {
+        flex-basis: 25%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .col-md-6 {
+        flex-basis: 50%;
+    }
+    
+    .col-md-4 {
+        flex-basis: 33.333%;
+    }
+    
+    .col-md-3 {
+        flex-basis: 25%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .col-lg-6 {
+        flex-basis: 50%;
+    }
+    
+    .col-lg-4 {
+        flex-basis: 33.333%;
+    }
+    
+    .col-lg-3 {
+        flex-basis: 25%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+```
