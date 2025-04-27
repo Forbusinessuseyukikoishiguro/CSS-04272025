@@ -1,0 +1,456 @@
+CSSチートシートをHTMLタグやクラス構造と組み合わせて使う方法をご説明します。チートシートのコードをHTMLと一緒に効果的に活用するためのガイドです。
+
+# HTMLタグとCSSクラスの組み合わせ方
+
+## 基本的なアプローチ
+
+### 1. HTML構造に適切なクラス名を設定する
+
+```html
+<!-- 基本的なセクション構造 -->
+<div class="container">
+  <h2 class="section-title">見出し</h2>
+  <p class="section-text">テキスト内容</p>
+  <div class="card-container">
+    <div class="card">
+      <h3 class="card-title">カードタイトル</h3>
+      <p class="card-text">カード内容</p>
+      <button class="btn btn-primary">詳細を見る</button>
+    </div>
+  </div>
+</div>
+```
+
+### 2. HTMLタグとクラスに対応するCSSを適用する
+
+```css
+/* コンテナスタイル */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 見出しスタイル */
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* テキストスタイル */
+.section-text {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  /* チートシートのテキスト折り返し設定を追加 */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+```
+
+## よく使用するHTMLタグとCSSの組み合わせ例
+
+### ヘッダー要素
+
+```html
+<header class="site-header">
+  <div class="container">
+    <h1 class="site-title">サイトタイトル</h1>
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#" class="nav-link">ホーム</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">サービス</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">会社概要</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">お問い合わせ</a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle">メニュー</button>
+  </div>
+</header>
+```
+
+```css
+/* チートシートのレスポンシブナビゲーションを適用 */
+.site-header {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 15px 0;
+}
+
+.site-title {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 20px;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+/* モバイル向けスタイル */
+@media screen and (max-width: 768px) {
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-list.active {
+    display: flex;
+  }
+  
+  .nav-item {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+}
+```
+
+### カードセクション
+
+```html
+<section class="card-section">
+  <div class="container">
+    <h2 class="section-title">サービス内容</h2>
+    <div class="card-container">
+      <div class="card">
+        <img src="image1.jpg" alt="サービス1" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">サービス1</h3>
+          <p class="card-text">サービス1の説明文が入ります。この文章はダミーです。</p>
+          <button class="btn btn-sm">詳細を見る</button>
+        </div>
+      </div>
+      <!-- 複数のカードを追加 -->
+    </div>
+  </div>
+</section>
+```
+
+```css
+/* チートシートのグリッドレイアウトを適用 */
+.card-container {
+  display: grid;
+  /* モバイル向け（デフォルト）: 1列 */
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* タブレット向け: 2列 */
+@media screen and (min-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* デスクトップ向け: 3列 */
+@media screen and (min-width: 1024px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* カードのスタイル */
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 16px;
+}
+
+/* チートシートのボタンスタイルを適用 */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+```
+
+## 特定のHTMLタグに対するCSS設定
+
+### テキストコンテンツのタグ
+
+```html
+<article class="blog-post">
+  <h2 class="post-title">ブログ記事タイトル</h2>
+  <p class="post-meta">2025年4月27日 | カテゴリ: ウェブデザイン</p>
+  <div class="post-content">
+    <p>段落テキストが入ります。この文章にはとても長い英単語supercalifragilisticexpialidociousが含まれています。</p>
+    <h3>小見出し</h3>
+    <p>別の段落テキスト。</p>
+    <blockquote>
+      引用文が入ります。
+    </blockquote>
+    <ul>
+      <li>リストアイテム1</li>
+      <li>リストアイテム2</li>
+    </ul>
+  </div>
+</article>
+```
+
+```css
+/* テキストスタイル */
+.blog-post {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.post-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-meta {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.post-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  /* チートシートのテキスト折り返し設定 */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+.post-content h3 {
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem;
+}
+
+.post-content blockquote {
+  border-left: 4px solid #3498db;
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+
+.post-content ul {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.post-content li {
+  margin-bottom: 0.5rem;
+}
+```
+
+## テーブルレイアウト
+
+```html
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>説明</th>
+        <th>価格</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>商品A</td>
+        <td>商品Aの説明文。これはとても長い説明文になる可能性があります。</td>
+        <td>1,000円</td>
+      </tr>
+      <tr>
+        <td>商品B</td>
+        <td>商品Bの説明文。</td>
+        <td>2,000円</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+```css
+/* テーブルスタイル */
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* モバイルでの横スクロール */
+  margin-bottom: 2rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+/* テーブルセル内のテキスト折り返し */
+.data-table td {
+  word-break: break-all; /* 長いテキストの折り返し */
+}
+
+/* レスポンシブ調整 */
+@media screen and (max-width: 768px) {
+  .data-table th,
+  .data-table td {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+}
+```
+
+## フォーム要素
+
+```html
+<form class="contact-form">
+  <div class="form-group">
+    <label for="name" class="form-label">お名前</label>
+    <input type="text" id="name" class="form-control" placeholder="お名前">
+  </div>
+  <div class="form-group">
+    <label for="email" class="form-label">メールアドレス</label>
+    <input type="email" id="email" class="form-control" placeholder="your@email.com">
+  </div>
+  <div class="form-group">
+    <label for="message" class="form-label">メッセージ</label>
+    <textarea id="message" class="form-control" rows="5" placeholder="メッセージを入力してください"></textarea>
+  </div>
+  <button type="submit" class="btn btn-lg">送信する</button>
+</form>
+```
+
+```css
+/* フォームスタイル */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* チートシートのボタンスタイルを適用 */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 18px;
+}
+
+/* レスポンシブ調整 */
+@media screen and (max-width: 768px) {
+  .btn {
+    width: 100%; /* モバイルでは幅いっぱい */
+  }
+}
+```
+
+## 実践的な活用ステップ
+
+1. **HTMLファイルを作成し、基本構造を設定する**
+   - 必要なセクションとコンテナを定義
+   - 適切なクラス名を設定
+
+2. **CSSファイルを作成し、チートシートから必要なコードを取り込む**
+   - ボックスモデルの基本設定
+   - レスポンシブブレークポイント
+   - グリッドやフレックスボックスの設定
+
+3. **HTMLタグごとにCSSを適用する**
+   - セマンティックなHTMLタグを優先する（`<header>`, `<section>`, `<article>`など）
+   - 汎用的な`<div>`タグには具体的な役割を示すクラス名を付ける
+
+4. **レスポンシブ設定を行う**
+   - メディアクエリを追加し、各ブレークポイントでのスタイルを指定
+   - テキスト、画像、ボタンなど要素ごとにレスポンシブな振る舞いを設定
+
+5. **テキスト折り返しなどの特殊な処理を適用する**
+   - 長い英単語を含む可能性のある要素にチートシートのテキスト折り返し設定を適用
+
+これらの方法でHTMLタグとCSSクラスを組み合わせることで、CSSチートシートを効果的に活用できます。
